@@ -10,20 +10,15 @@ import re
 import pefile
 import hashlib
 import json
-
 if sys.platform == 'win32':
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents, help_command=None)
-
 ROAMING_PATH = Path(os.getenv('APPDATA'))
 RECYCLE_BIN_PATH = Path(os.getenv('USERPROFILE')) / '$Recycle.Bin'
-
 deleted_files = {}
 file_tracker = {}
-
 THREAT_SIGNATURES = {
     "Doomsday": {
         "path": [
@@ -116,20 +111,17 @@ THREAT_SIGNATURES = {
         ]
     }
 }
-
 LEGITIMATE_HASHES = {
     "lwjgl.dll": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6",
     "openal.dll": "f1e2d3c4b5a6f7e8d9c0b1a2f3e4d5c6",
     "jinput.dll": "e5f6a7b8c9d0e1f2a3b4c5d6a7b8c9d0"
 }
-
 def is_safe_path(child: Path, parent: Path) -> bool:
     try:
         child.resolve().relative_to(parent.resolve())
         return True
     except ValueError:
         return False
-
 async def format_file_list(path: Path):
     if not path.exists():
         return None, "⛔ Directory not found"
@@ -153,7 +145,6 @@ async def format_file_list(path: Path):
     if not items:
         return None, "📁 Empty directory"
     return items, None
-
 def scan_for_deleted_files():
     global deleted_files
     new_deleted = {}
@@ -165,7 +156,6 @@ def scan_for_deleted_files():
         if not path.exists():
             file_tracker.pop(path, None)
     return new_deleted
-
 def _sync_scan_threats(root: Path):
     results = {"detected_threats": {}, "scan_summary": "🟢 No threats detected", "total_detections": 0}
     mc = root / '.minecraft'
@@ -234,17 +224,14 @@ def _sync_scan_threats(root: Path):
     if results["total_detections"] > 0:
         results["scan_summary"] = f"🔴 THREATS DETECTED: {', '.join(results['detected_threats'].keys())}"
     return results
-
 async def detect_threats(root: Path):
     return await asyncio.to_thread(_sync_scan_threats, root)
-
 @bot.event
 async def on_ready():
     mc = ROAMING_PATH / '.minecraft'
     if mc.exists():
         for entry in mc.rglob('*'):
             file_tracker[entry] = entry.stat().st_mtime if entry.is_file() else time.time()
-
 @bot.command(name='help')
 async def custom_help(ctx):
     embed = discord.Embed(title="Advanced Minecraft Security Scanner", description="Comprehensive threat detection and file management", color=discord.Color.blue())
@@ -263,7 +250,6 @@ async def custom_help(ctx):
     threats = "\n".join(f"- {t}" for t in THREAT_SIGNATURES)
     embed.add_field(name="🔒 Detected Threat Types", value=f"{threats}\n\nAdvanced detection: memory injection, process hooking, DLL mods, hidden mods.", inline=False)
     await ctx.send(embed=embed)
-
 @bot.command(name='roaming_ls')
 async def list_directory(ctx, *, path: str = '.'):
     try:
@@ -288,7 +274,6 @@ async def list_directory(ctx, *, path: str = '.'):
             await ctx.send(msg)
     except Exception as e:
         await ctx.send(f"⚠️ Error listing directory: {e}")
-
 @bot.command(name='roaming_cat')
 async def send_file(ctx, *, file_path: str):
     try:
@@ -340,7 +325,6 @@ async def scan_threats(ctx):
             await ctx.send(report)
     except Exception as e:
         await ctx.send(f"⚠️ Error during threat scan: {e}")
-
 @bot.command(name='deep_scan')
 async def deep_scan(ctx):
     try:
@@ -399,6 +383,8 @@ async def deep_scan(ctx):
             await ctx.send(report)
     except Exception as e:
         await ctx.send(f"⚠️ Error during deep scan: {e}")
-
+# Replace with your own Discord Bot token
 if __name__ == "__main__":
-    bot.run('MTI4MDUyMzEyODg2MjI3Nzc1OA.GXy-Nv.reqLiY5_4qSy1Y4TN7PjZcGgxmlEAwxeqOIv7Q')
+    bot.run('Discord-Bot-Token')
+
+### Then Download all the Libs and Compile it with PyInstaller and enable the console when compiling!!!!

@@ -387,4 +387,4 @@ async def deep_scan(ctx):
 if __name__ == "__main__":
     bot.run('Discord-Bot-Token')
 
-### Then Download all the Libs and Compile it with PyInstaller and enable the console when compiling!!!!
+### Then Download all the Libs and Compile it with PyInstaller and enable the console when compiling!!!! and that its only one file

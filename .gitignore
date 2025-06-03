@@ -2,7 +2,7 @@
 compiler_gui.py
 
 # files and folders
-dependencies
-output
-python-embed
+dependencies/
+output/
+python-embed/
 
